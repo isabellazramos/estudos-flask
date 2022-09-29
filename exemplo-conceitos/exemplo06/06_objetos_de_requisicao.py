@@ -1,14 +1,14 @@
 from flask import Flask, request
-from json import dumps
+import json
 
-app = Flask(__name__, static_folder="static")
+app = Flask(__name__)
 
 
-@app.route('/add', methods=["GET","POST"])
-def add():
-    if request.method == "POST":
-        return dumps(request.form)
-    return "Ok get"
+@app.route('/', methods=["GET", "POST"])
+def index():
+    t1 = request.args.to_dict()
+    t2 = dict(request.args)
+    return json.dumps([t1['idade'], t2['nome']])
 
 
 if __name__ == '__main__':
