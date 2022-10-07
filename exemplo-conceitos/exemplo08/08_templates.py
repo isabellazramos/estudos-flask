@@ -1,13 +1,19 @@
+from crypt import methods
 from urllib import request
-from flask import Flask, render_template
+from flask import Flask, render_template, request
 
 app = Flask(__name__, template_folder='templates')
 
 
 @app.route('/')
-def index():
-    query = request.args.to_dict()
-    return render_template('modelo.html')
+def notas():
+    return render_template('notas.html')
+
+
+@app.route('/calculo', methods=['POST'])
+def calculo():
+    total = sum([int(v) for v in request.form.to_dict().values()])
+    return render_template('calculo.html', total = total)
 
 
 if __name__ == '__main__':
