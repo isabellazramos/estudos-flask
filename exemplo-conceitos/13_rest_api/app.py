@@ -1,8 +1,7 @@
-from flask_sqlalchemy import SQLAlchemy
 from flask import Flask, render_template, request, url_for, redirect
+from flask_sqlalchemy import SQLAlchemy
 
 app = Flask(__name__, template_folder='templates')
-app.app_context().push()
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///estudantes.sqlite3'
 db = SQLAlchemy(app)
 
