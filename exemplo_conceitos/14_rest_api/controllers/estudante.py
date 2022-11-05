@@ -1,10 +1,8 @@
-from flask import Flask, render_template, request, url_for, redirect, Response
-from models import db, Estudante
+from flask import Blueprint, Response, request
 import json
+from models.estudante import db, Estudante
 
-app = Flask(__name__, template_folder='templates')
-app.app_context().push()
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///estudantes.sqlite3'
+app = Blueprint("estudantes", __name__)
 
 
 @app.route('/')
@@ -18,7 +16,8 @@ def index():
 
 @app.route('/view/<int:id>', methods=['GET'])
 def view(id):
-    row = db.session.execute("select * from estudante where id = %s" %id).fetchone()
+    row = db.session.execute(
+        "select * from estudante where id = %s" % id).fetchone()
     return Response(response=json.dumps(dict(row)), status=200, content_type="application/json")
 
 
@@ -27,7 +26,7 @@ def add():
     estudante = Estudante(request.form['nome'], request.form['idade'])
     db.session.add(estudante)
     db.session.commit()
-    return Response(response=json.dumps(estudante.to_dict()), status=200, content_type="application/json")
+    return Response(response=json.dumps({'status': 'success','data': estudante.to_dict()}), status=200, content_type="application/json")
 
 
 @app.route('/edit/<int:id>', methods=['PUT', 'POST'])
@@ -45,10 +44,3 @@ def delete(id):
     db.session.delete(estudante)
     db.session.commit()
     return Response(response=json.dumps(estudante.to_dict()), status=200, content_type="application/json")
-
-
-if __name__ == '__main__':
-    db.init_app(app=app)
-    with app.test_request_context():
-        db.create_all()
-    app.run(debug=True)
