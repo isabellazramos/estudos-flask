@@ -24,7 +24,7 @@ def view(id):
 
 @app.route('/add', methods=['POST'])
 def add():
-    estudante = Estudante(request.form['nome'], request.form['idade'])
+    estudante = Estudante(nome= request.form['nome'],idade= request.form['idade'])
     db.session.add(estudante)
     db.session.commit()
     return Response(response=json.dumps(estudante.to_dict()), status=200, content_type="application/json")

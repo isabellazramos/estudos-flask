@@ -1,14 +1,14 @@
 from flask import Blueprint, Response, request
 import json
-from models.estudante import db, Disciplina
+from models.models import db, Disciplina
 
 app = Blueprint("disciplina", __name__)
 
+
 @app.route('/')
 def index():
-    # disciplinas = Disciplina.query.all()
-    # result = [e.to_dict() for e in disciplinas]
-    result = [dict(r) for r in rows]
+    disciplinas = Disciplina.query.all()
+    result = [e.to_dict() for e in disciplinas]
     return Response(response=json.dumps(result), status=200, content_type="application/json")
 
 
@@ -26,6 +26,7 @@ def add():
     db.session.add(disciplina)
     db.session.commit()
     return Response(response=json.dumps(disciplina.to_dict()), status=200, content_type="application/json")
+
 
 @app.route('/edit/<int:id>', methods=['PUT', 'POST'])
 def edit(id):

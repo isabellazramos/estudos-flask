@@ -1,6 +1,6 @@
 from flask import Blueprint, Response, request
 import json
-from models.estudante import db, Estudante
+from models.models import db, Estudante
 
 app = Blueprint("estudantes", __name__)
 

@@ -1,5 +1,5 @@
 from flask import Flask
-from models.estudante import db
+from models.models import db
 from controllers.estudante import app as estudante_controller
 from controllers.disciplina import app as disciplina_controller
 
